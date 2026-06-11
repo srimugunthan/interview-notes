@@ -1,3 +1,5 @@
+---
+# Video1
 
 ---
 
@@ -41,9 +43,9 @@ Here is the comprehensive breakdown of the PyTorch foundations video, organized 
 - **[02:46:22](https://www.google.com/search?q=https://www.youtube.com/watch%3Fv%3Dd86lJxKInYg%26t%3D9982s) - Debugging Device Mismatches:** Explaining the common runtime error: *"Expected all tensors to be on the same device..."* and how to fix it.
 - **[02:48:09](https://www.google.com/search?q=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3Dd86lJxKInYg%26t%3D10089s) - Validation Loops & Tracking Overfitting:** Implementing side-by-side epoch loops plotting training loss against unseen verification pools to catch divergence and overfitting trends early.
 
+---
+# Video2
 
-
---
 ---
 
 Here is the comprehensive breakdown of the second video in the series, covering how PyTorch handles data loading, pipeline optimization, and dynamic structural preparation for both Computer Vision (CV) and Natural Language Processing (NLP):
@@ -87,7 +89,7 @@ Here is the comprehensive breakdown of the second video in the series, covering 
   - `pin_memory=True`: Locks the staging area in CPU host memory, accelerating the data transfer speed directly down to the training GPU while operations run concurrently.
  
 ---
-Here is the markdown rendered cleanly:
+# Video3
 
 ---
 
@@ -131,7 +133,7 @@ Here is the point-by-point transcript breakdown of the third video in the playli
 - **[[01:06:58]](https://www.youtube.com/watch?v=c6VTUx0EdqM&t=4018s) - Verification and Benefits:** Running training with a frozen feature extraction backend. It yields a strong **96.6% accuracy** while using significantly less VRAM and compute time, since backpropagation gradients are only calculated for the single final layer.
 
 ---
-Here is the markdown rendered cleanly:
+# Video4
 
 ---
 
@@ -191,7 +193,7 @@ Here is the point-by-point transcript breakdown of the fourth video in the serie
 
 
 ---
-Here is the markdown rendered cleanly:
+# Video5
 
 ---
 
@@ -254,3 +256,188 @@ Here is the detailed point-by-point transcript breakdown of the fifth video in t
 - **[[02:34:37]](https://www.youtube.com/watch?v=TqIU9K8nNhs&t=9277s) - Experimental Results:** The instructor presents experimental training logs comparing two identical 101-layer models on a cats vs. dogs data pool:
   - **Model WITHOUT Residual Connections:** The training loss remains completely flat and stagnant across all epochs. Gradients vanish, rendering the model incapable of optimization.
   - **Model WITH Residual Connections:** The error curve drops cleanly, showing rapid and stable convergence.
+ 
+---
+# Video6
+
+---
+
+Here is the point-by-point transcript breakdown of the sixth video in the series, highlighting the evolution of Sequence Modeling from historical algorithms to Recurrent Neural Networks (RNNs) and Long Short-Term Memory (LSTM) networks in PyTorch:
+
+### 1. The Foundations of Sequence Modeling & Probability Limitations
+
+- **[[00:00:00]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=0s) - Introduction:** Transitioning into Sequence Modeling. While modern applications are largely dominated by Transformer architectures, understanding the historical mechanics of recurrent pipelines provides essential context for handling data variables like text or audio.
+- **[[00:01:58]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=118s) - The Intractability of Complete Joint Probability:** Structuring a sequence mathematically: `(X₁, X₂, X₃ ... X_T)`. Computing the true absolute probability requires an expanding sequence of multi-variable conditional steps:
+
+  `P(X₁, X₂ ... X_T) = P(X₁) · P(X₂ | X₁) · P(X₃ | X₂, X₁) ... P(X_T | X_{T-1} ... X₁)`
+
+  As sequence counts scale into hundreds of units, tracking the entire preceding dependency path becomes mathematically impossible and intractable.
+- **[[00:03:27]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=207s) - The Markov Chain Simplification:** The First-Order Markov Assumption simplifies this limitation by asserting that the future time step depends *exclusively* on the single immediate past step, dropping long-term tracking components:
+
+  `P(X_T | X_{T-1}, X_{T-2} ... X₁) ≈ P(X_T | X_{T-1})`
+- **[[00:04:42]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=282s) - Bag-of-Words Models:** Explaining Bag-of-Words (often paired with Naive Bayes classifiers). This method discards temporal ordering entirely, looking solely at token presence. While highly reductive, it operates successfully for baseline applications like spam filtering.
+
+### 2. Recurrent Neural Network (RNN) Architectures
+
+- **[[00:06:20]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=380s) - Recurrent Mechanics (The Hidden State Loop):** Instead of imposing strict memory cuts like Markov rules, an RNN creates an active feedback loop. It processes incoming data inputs (`X_t`) sequentially alongside a shifting internal memory metric known as the Hidden State (`H_{t-1}`), carrying past history forward to decode upcoming steps.
+- **[[00:10:09]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=609s) - The Mathematical Steps of an RNN Unit:** Inside an isolated RNN node, hidden memory properties are computed linearly:
+
+  `a_t = W_hh · H_{t-1} + W_xh · X_t + b_h`
+
+  `H_t = tanh(a_t)`
+
+  The activation layer utilizes Hyperbolic Tangent (`tanh`) parameters to cleanly bound features between a standardized `[-1.0, 1.0]` scaling limit.
+- **[[00:17:15]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=1035s) - Backpropagation Through Time (BPTT):** To optimize unrolled recurrent layers, the standard backpropagation algorithm must calculate step derivatives sequentially across the full temporal pipeline.
+- **[[00:20:42]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=1242s) - Temporal Gradient Collapse:** Like the structural vanishing gradient issue found in deep CNNs, BPTT relies on continuous chain-rule multiplication across every sequence step. Over longer text chunks (e.g., a 1,000-word review), multi-step matrix multiplications degrade values rapidly, meaning long-term historical context fades out entirely.
+
+### 3. Long Short-Term Memory (LSTM) Networks
+
+- **[[00:27:16]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=1636s) - Mitigating Recurrent Fading:** LSTMs overcome baseline RNN limits by splitting memory management into short-term properties (Hidden State `H_t`) and long-term context tracks (Cell State `C_t`).
+- **[[00:28:39]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=1719s) - Gating Mechanisms & Information Routing:** LSTMs control internal properties using specialized mathematical gates that leverage Sigmoid (`σ`) bounding to output values between `0` (block) and `1` (allow):
+  - **Forget Gate (`f_t`):** Evaluates `X_t` and `H_{t-1}` to determine which portions of the historical Cell State (`C_{t-1}`) to dump or preserve.
+  - **Input Gate (`i_t` & `C̃_t`):** Isolates important upcoming traits to adjust and add onto the core Cell State.
+  - **Output Gate (`o_t`):** Filters the newly updated Cell State information to define the active Hidden State (`H_t`).
+- **[[00:41:40]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=2500s) - Why LSTMs Keep Long Contexts Trainable:** Because the Cell State line (`C_t`) only utilizes basic linear addition and scalar forget adjustments instead of complex multi-layer weight multiplications, error gradients can flow cleanly through time dimensions without vanishing prematurely.
+
+### 4. Sequence Topologies & Pipeline Layouts
+
+- **[[00:44:05]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=2645s) - Structural Sequence Frameworks:** Sequence models adapt flexibly across multiple system topologies:
+  - **One-to-Many:** Takes a single anchor input to generate variable-length sequences (e.g., Image Captioning).
+  - **Many-to-One:** Condenses an input sequence down to an isolated final category (e.g., Sentiment Analysis classification).
+  - **Many-to-Many (Offset):** Encodes sequences completely before generating outputs (e.g., Neural Machine Translation).
+  - **Many-to-Many (Aligned):** Computes active step evaluations per item token (e.g., POS-Tagging or video frames).
+
+### 5. Code Implementation: Word-Level Sentiment Classifier
+
+- **[[00:51:30]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=3090s) - Vocabulary Compilation & Token Mapping:** Building text pipelines on the IMDb reviews corpus. Cleans strings using regex strings, drops low-value English stopwords via `nltk`, filters rare vocab, and maps indices to establish a text token vocabulary.
+- **[[01:07:27]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=4047s) - Text Batching and Collation:** Creating a custom `collate_fn` that isolates uneven sentences within batches and dynamically attaches padding tokens up to the longest sequence limit via `nn.utils.rnn.pad_sequence`.
+- **[[01:12:37]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=4357s) - The Embedding Layer Matrix:** Explaining `nn.Embedding`. Arbitrary vocabulary tokens contain no semantic properties. The embedding matrix creates trainable hidden lookup rows (`Vocab Size × Embedding Dim`) to map tokens into expressive multi-dimensional feature space arrays.
+- **[[01:43:07]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=6187s) - Building the Custom Network Model:** Stacking elements inside an `nn.Module`:
+  1. Funnels integer tokens into the tracking Embedding layout.
+  2. Forwards variables through `nn.LSTM` blocks (caching initial `H₀`/`C₀` memory matrices on the target hardware device).
+  3. Extracts the final hidden step sequence block and passes it to an output classification linear head.
+
+### 6. Training Dynamics & The Necessity of Gradient Clipping
+
+- **[[02:01:51]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=7311s) - Gradient Clipping:** Early training runs present massive error spikes that trigger exploding gradients during temporal backpropagation. To stabilize this, the instructor applies:
+
+  `nn.utils.clip_grad_norm_(model.parameters(), max_norm=5)`
+
+  This forces absolute gradient bounds to safe thresholds, preventing numerical collapse.
+- **[[02:08:20]](https://www.youtube.com/watch?v=UBjmWHX8xlI&t=7700s) - Explaining Training Latency & Structural Limits:** Tracking the classification loss output. Unlike common deep CNN pipelines, recurrent structures cannot parallelize their operations during training because every step depends sequentially on the previous hidden state. This forced computational bottleneck is the primary motivation for shifting over to modern parallel Transformer workflows.
+
+---
+
+For a deeper dive into the architectural design of these long-term context tracking systems, the tutorial on [Understanding Recurrent Neural Network Architectures](https://www.youtube.com/watch?v=ybbMQGM9FBU) provides excellent visual animations detailing exactly how the internal memory states gate information.
+
+---
+# Video7
+
+---
+
+Here is the comprehensive, point-by-point transcript breakdown of the seventh video in the series, shifting from sequence classification to **Sequence Generation (Many-to-Many Topologies)** using PyTorch:
+
+### 1. Sequential Control: Automated vs. Manual Loop Management
+
+- **[[00:00]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=0s) - Introduction:** Transitioning from *Many-to-One* workflows (Sentiment Analysis) to **Many-to-Many Topologies** (Sequence Generation/Language Modeling).
+- **[[01:12]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=72s) - Two Execution Modes in PyTorch:** When using `nn.LSTM` or `nn.RNN`, there are two primary operational paradigms:
+  1. **Automated Vector Feeding:** Passing a full 3D matrix block directly into the module. PyTorch's backend runs the sequential loop automatically.
+  2. **Manual Step Feeding:** Forsecting the tensor stream and manually programming a Python `for` loop to evaluate single tokens one time-step at a time.
+- **[[05:23]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=323s) - Manual Step-by-Step Code Walkthrough:** To iterate manually over a sequence dimension, you slice individual timesteps from the matrix and preserve structural constraints via the `unsqueeze(1)` method. This wraps variables back into the expected shape format: `[Batch Size, 1, Embedding Dim]`.
+- **[[07:36]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=456s) - Continuous Memory Recurrence:** Tracking variable states inside a custom loop:
+  `out, (hidden, cell) = lstm(token, (hidden, cell))`
+  By overriding the `hidden` and `cell` state variables continuously, the output of step `T` serves directly as the tracking memory baseline for step `T+1`.
+
+### 2. The Mechanics of Auto-Regressive Text Generation
+
+- **[[12:44]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=764s) - The Auto-Regressive Principle:** Auto-regressive sequence models predict future tokens iteratively. To generate text, the network takes a string sequence, predicts the single most likely immediate upcoming token, appends that prediction back onto the input sequence, and uses the newly extended prompt to evaluate the subsequent step.
+- **[[15:34]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=934s) - Setting Up an Auto-Regressive Data Pipeline:** The training configuration for a language model relies on an offset strategy. Given a sample text segment (e.g., *"The capital of France is Paris"*), the matrix targets are separated into identical overlapping sequences shifted by one position:
+  - **Input Vector (`X`):** All elements except the absolute final token → `["The", "capital", "of", "France", "is"]`
+  - **Target Label Vector (`Y`):** All elements except the absolute initial token → `["capital", "of", "France", "is", "Paris"]`
+
+### 3. The Functional Constraints of Character-Level Modeling
+
+- **[[24:02]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=1442s) - Character-Level Limitations:** This tutorial implements a character-level generation network trained on raw Harry Potter transcripts. The instructor highlights two major issues with this approach:
+  1. **Semantic Vacuum:** Standalone alphanumeric characters carry no inherent contextual meaning. Their lookup embedding rows lack the rich, interpretable spatial vectors found in Word-level pipelines.
+  2. **Context Blowout:** Breaking individual words into independent character tokens significantly inflates total sequence counts. This quickly overwhelms the memory limits of recurrent architectures.
+- **[[26:35]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=1595s) - Text Processing & Tokenization Loops:** Loading file inputs, removing residual formatting anomalies with regex patterns (`re.sub`), isolating lowercase characters, and mapping indices to establish standard `char_to_index` and `index_to_char` dictionaries.
+- **[[33:57]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=2037s) - Random Chunk Generation:** Unlike variable sentiment tasks that require padding, language models are preprocessed by slicing continuous blocks of text to a fixed scale (e.g., 300 characters). This uniform scale lets the tensors stack together natively into clean multi-dimensional batch matrices.
+
+### 4. Designing the Generative Layout & Decoding Strategies
+
+- **[[01:45:30]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=6330s) - Building the Generation Module:** Stacking custom modules inside `nn.Module`:
+  1. Processes alphanumeric token streams through the initial `nn.Embedding` layout.
+  2. Forwards features through multi-layer `nn.LSTM` blocks.
+  3. Maps every hidden state cell linearly back up to the absolute vocabulary scale (`nn.Linear(hidden_size, num_characters)`).
+- **[[01:17:27]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=4647s) - Bounding Softmax Vectors:** Passing the final linear outputs through an active `nn.Softmax(dim=-1)` function to transform raw logits into a clean probability distribution vector that sums exactly to 1.0.
+- **[[01:17:51]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=4671s) - Decoding Strategies:** Comparing mechanisms for extracting character predictions from the probability vector:
+  - **Greedy Decoding:** Uses an argmax filter (`torch.argmax(probs)`) to select the absolute highest-probability index. This is simple but prone to repetitive loops.
+  - **Multinomial Sampling:** Draws a random index weighted by the underlying probability vector via `torch.multinomial(probs, num_samples=1)`. This introduces creative variation, making generation much more realistic.
+
+### 5. Multi-Dimensional Cross-Entropy Matrix Math
+
+- **[[01:34:20]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5660s) - Managing Shapes for Cross-Entropy:** PyTorch's `nn.CrossEntropyLoss` expects multi-dimensional target arrays to be configured in a specific format:
+  - **Logits Shape:** `[Batch Size, Num Classes, Sequence Length]` → `[128, 91, 299]`
+  - **Targets Shape:** `[Batch Size, Sequence Length]` → `[128, 299]`
+- **[[01:37:01]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5821s) - Flattening Matrices for Loss Operations:** To match this format seamlessly, you can flatten the batch and sequence fields into a single long parameter row. This aligns the data inputs into clear, optimized dimensional arrays:
+  - **Reshaped Logits:** `[Batch * Sequence, Classes]` → `[38272, 91]`
+  - **Reshaped Targets:** `[Batch * Sequence]` → `[38272]`
+
+### 6. Training Evaluation & Long-Term Bottlenecks
+
+- **[[01:39:24]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5964s) - Inline Iteration Monitoring:** Intercepting the training loop at set intervals (e.g., every 300 steps) to pass a seed prompt like *"spells"* to the model. This generates an active inline validation text check to monitor performance in real-time.
+- **[[01:41:40]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=6100s) - Evaluating Output Quality:** Early metrics generate random character strings. As backpropagation weights adjust, the model begins stitching characters into valid English words (*"moment"*, *"Professor"*, *"Dumbledore"*). However, it struggles to preserve long-term coherence because character-level paths remain highly limited under standard recurrence constraints.
+
+---
+# Video8
+
+---
+Here is the markdown rendered cleanly:
+
+---
+
+Here is the point-by-point transcript breakdown of the eighth video in the series, transitioning into the architecture and dynamic logic required for **Generative Sequence Modeling (Many-to-Many Topologies)** using PyTorch:
+
+### 1. The Operational Divide: Automated vs. Manual Time-Step Recurrence
+
+- **[[00:00]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=0s) - Introduction:** Moving from sequence classification (Many-to-One) to sequence generation (Many-to-Many).
+- **[[01:24]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=84s) - Manual Recurrence Frameworks:** When utilizing PyTorch's `nn.LSTM` or `nn.RNN`, you have two structural options for data input:
+  1. Passing an entire sequence array at once and letting PyTorch's backend run the loop natively.
+  2. Feeding single tokens manually via an active Python `for` loop to gain fine-grained generation control.
+- **[[05:31]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=331s) - Coding a Manual Recurrent Pass:** Code execution demonstrating manual single-token iteration. Slicing structural timesteps directly out of an entry matrix disrupts default dimensions, requiring `token.unsqueeze(1)` to re-establish the structural tensor shape format: `[Batch Size, 1, Embedding Dim]`.
+- **[[07:56]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=476s) - Continuous Hidden Tracking Loops:** Implementing manual feedback loops inside a sequence block:
+  `out, (hidden, cell) = lstm(token, (hidden, cell))`
+  By overriding the `hidden` memory and `cell` context states continuously per step, the network preserves long-term structural dependencies.
+- **[[11:06]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=666s) - Validation Check:** Verifying that a manual step-by-step loop yields numerical outputs identical to an automated full-matrix pass using `torch.allclose()`.
+
+### 2. The Mechanics of Auto-Regressive Data Pipelines
+
+- **[[12:44]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=764s) - The Auto-Regressive Principle:** Generative pipelines utilize auto-regressive generation loops. To create predictive outputs, the network samples the single most likely token at step `T`, treats that generated token as an explicit input for step `T+1`, and loops continuously.
+- **[[15:34]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=934s) - Alignment of Next-Token Prediction Targets:** Training a generative network requires aligning the training dataset arrays via a fixed spatial offset:
+  - **Input Vector (`X`):** The raw text slice minus its absolute final token → `["The", "capital", "of", "France", "is"]`
+  - **Target Vector (`Y`):** The raw text slice minus its absolute initial token → `["capital", "of", "France", "is", "Paris"]`
+- **[[22:00]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=1320s) - Spatial Scaling Constraints:** This example utilizes a character-level model (trained on Harry Potter texts) for simplicity. However, character-level setups inflate sequence lengths significantly compared to subword structures, making recurrent pipelines more susceptible to vanishing gradients.
+- **[[33:57]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=2037s) - Managing Uniform Batch Slices:** Rather than using complex padding strategies, generative data blocks are pre-processed by cutting text strings into fixed lengths (e.g., 300 characters). This uniform scale lets the layers stack natively into standard multi-dimensional tensors.
+
+### 3. Decoding and Sampling Strategies
+
+- **[[01:45:30]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=6330s) - Building the Generation Module Architecture:** Setting up an active `nn.Module` string containing `nn.Embedding`, `nn.LSTM`, and an output predictive layer that projects the final hidden state to the vocabulary scale: `nn.Linear(hidden_size, num_characters)`.
+- **[[01:17:27]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=4647s) - Bounding Softmax Values:** Converting linear logit outputs using an active `nn.Softmax(dim=-1)` call to establish a clean probability vector where every choice maps between `0.0` and `1.0`.
+- **[[01:17:51]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=4671s) - Sampling Strategies:** Comparing decoding strategies to sample upcoming tokens from a probability distribution:
+  - **Greedy Decoding:** Extracts the absolute highest probability option via `torch.argmax(probs)`. This method is stable but can trap generation in repetitive loops.
+  - **Multinomial Sampling:** Samples token indexes dynamically based on the underlying probability weights via `torch.multinomial(probs, num_samples=1)`. This introduces creative variation into the generation.
+
+### 4. Reshaping Matrices for Cross-Entropy Loss
+
+- **[[01:34:20]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5660s) - Aligning Multi-Dimensional Tensors:** PyTorch's standard `nn.CrossEntropyLoss` expects its inputs to be structured across strict axes:
+  - **Logits Array Shape:** `[Batch Size, Num Classes, Sequence Length]` → `[128, 91, 299]`
+  - **Targets Array Shape:** `[Batch Size, Sequence Length]` → `[128, 299]`
+- **[[01:37:01]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5821s) - Flattening Matrices for Loss Operations:** To match this format seamlessly, you can flatten the batch and sequence fields into a single long parameter row using `reshape(-1, num_classes)`. This aligns the data inputs into clear, optimized dimensional arrays:
+  - **Flattened Logits:** `[Batch * Sequence, Classes]` → `[38272, 91]`
+  - **Flattened Targets:** `[Batch * Sequence]` → `[38272]`
+
+### 5. Training, Evaluation, and Hardware Bottlenecks
+
+- **[[01:39:24]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=5964s) - Inline Iteration Monitoring:** Setting up evaluation checks within the training loop (e.g., every 300 steps) to pass a seed prompt like *"spells"* to the model. This triggers an active inline validation text check to monitor text generation quality in real-time.
+- **[[01:41:40]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=6100s) - Evaluating Output Quality:** Early training iterations generate random gibberish. As weights adjust, recognizable English words emerge (*"moment"*, *"Professor"*, *"Dumbledore"*). However, it struggles to preserve long-term coherence because character-level paths remain highly limited under standard recurrence constraints.
+- **[[02:10:34]](https://www.youtube.com/watch?v=f8qoaeF2kzY&t=7834s) - Computational Bottlenecks:** Explaining the hardware limits of RNNs. Because every step depends sequentially on the previous hidden state, recurrent models cannot parallelize training over time dimensions. This computational bottleneck is the primary motivation for switching to Transformer architectures.
