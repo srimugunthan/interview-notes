@@ -1,4 +1,7 @@
+# SQL Syntax
 Here is a structured reference guide to the SQL syntax covered in the tutorial, complete with timestamps mapping to each concept:
+
+https://www.youtube.com/watch?v=roGOgrPvNNY 
 
 ### 1. Data Retrieval Basics
 
