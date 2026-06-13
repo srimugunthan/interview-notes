@@ -97,3 +97,63 @@ Here is a comprehensive, structured breakdown of the JavaScript syntax covered i
 * **Try/Catch/Finally:** Volatile operations are safely handled inside a `try` segment. If a runtime crash triggers, it transfers directly down to the `catch` structural scope. Logic wrapped inside a `finally` block runs unconditionally regardless of the outcome `[00:49:17]`.
 * **Throwing Errors:** Generate custom exceptions explicitly at specific check points using syntax like `throw new Error("Message")` `[00:50:06]`.
 * **Asynchronous Error Scope:** In asynchronous code, exceptions cannot be intercepted by raw synchronous `try/catch` wrappers. Instead, errors must be handled using error-first parameters inside a callback function, chain-linked with `.catch()` promises, or scoped inside block-level async/await blocks `[00:52:01]`.
+---
+Here is a comprehensive summary of the core JavaScript concepts from the crash course, complete with code formatting and matching timestamps:
+
+https://www.youtube.com/watch?v=xKOyDDuQSVY 
+
+### 1. Variables & Data Types
+
+* **Variable Declaration:** Created using the `let` keyword and assigned values via the `=` operator. Variable names must be single consecutive text pieces using camelCase (e.g., `favoriteNumber`) `[00:00:46]`.
+* **Console Logging:** Use `console.log()` to output values to the console for debugging `[00:01:14]`.
+* **Basic Data Types:** * *Number:* Numeric values like `16` `[00:02:00]`.
+* *String:* Text values enclosed in quotation marks `"like this"`. Adding two strings combines them into a single larger text `[00:01:48]`.
+* *Boolean:* Evaluates explicitly to either `true` or `false` `[00:02:00]`.
+
+
+
+### 2. Operators & Logical Control
+
+* **Comparison Operators:** Used to test values (e.g., `>` for greater than, or `===` to evaluate if values are strictly equal). These evaluations return a boolean value `[00:02:47]`.
+* **Logical Operators:** Used to string multiple evaluation checks together `[00:03:07]`:
+* `&&` (AND): Returns true only if **both** conditions are true `[00:05:11]`.
+* `||` (OR): Returns true if **at least one** condition is true `[00:05:31]`.
+* `!` (NOT): Inverts the current boolean state (`true` becomes `false` and vice versa) `[00:05:46]`.
+
+
+* **Conditional Structures:** Uses `if`, `else if`, and fallback `else` blocks enclosed in curly braces `{}` to fork your program's execution logic based on changing states `[00:03:31]`.
+
+### 3. Loops (Iterating Code)
+
+* **While Loops:** Repeats a nested block of code *while* an evaluation statement is true. Inside the block, an explicitly updated value is needed to prevent an infinite program crash `[00:06:36]`.
+* **For Loops:** Condenses loop setup into a clean, single-line configuration containing three expressions separated by semicolons: `for (let i = 1; i <= 10; i++)` (initial counter; exit condition; step counter) `[00:08:25]`.
+
+### 4. Functions & Parameters
+
+* **Declaring Functions:** Blocks of reusable code declared using the `function` keyword. Defining a function does not execute it; it must be explicitly invoked using its name and parentheses (e.g., `greet()`) `[00:10:02]`.
+* **Parameters:** Variable inputs declared inside the function's parentheses that make the code flexible to handle dynamic arguments `[00:10:38]`.
+* **Return Values:** Implemented via the `return` keyword to pass calculated data back to the program environment, distinct from `console.log()` which only outputs data to the screen `[00:11:19]`.
+
+### 5. Arrays & Collections
+
+* **Arrays:** Used to list multiple elements inside square brackets `[]` separated by commas `[00:12:17]`.
+* **Zero-Based Indexing:** Access nested data sequentially using index keys starting at `0` (e.g., `technologies[0]`) `[00:12:35]`.
+* **Modifying Arrays:** Use `.push("item")` to append an item to the tail end of a list, and `.pop()` to extract and remove the final item `[00:13:15]`.
+* **The `forEach` Loop:** An array method that loops through each entry automatically using a callback function parameter `[00:16:54]`. You can clean this up by replacing named loops with nameless arrow syntax `[00:18:02]`:
+```javascript
+names.forEach(name => console.log(name));
+
+```
+
+
+
+### 6. JavaScript Objects
+
+* **Objects:** Structural maps surrounded by curly braces `{}` used to describe a single entity using detailed key-value property pairings `[00:14:32]`.
+* **Dot Notation:** Read or rewrite structural object data points cleanly using standard period syntax (e.g., `user.name`) `[00:15:09]`.
+
+### 7. DOM Manipulation (Interacting with Web Pages)
+
+* **On-Click Events:** Bind HTML interactive elements to specific JavaScript actions using structural hooks like the `onclick` attribute `[00:18:24]`.
+* **Targeting Elements:** Fetch explicit DOM document layout markers securely using standard methods like `document.getElementById("idName")` `[00:19:11]`.
+* **Modifying Page Text:** Change the text content displayed on a webpage directly by altering the `.textContent` parameter of a targeted element variable `[00:19:37]`.
