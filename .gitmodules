@@ -7,3 +7,6 @@
 [submodule "ai-engineering-interview-questions"]
 	path = ai-engineering-interview-questions
 	url = https://github.com/amitshekhariitbhu/ai-engineering-interview-questions
+[submodule "DS_StatisticsQuestions"]
+	path = DS_StatisticsQuestions
+	url = https://github.com/srimugunthan/DS_StatisticsQuestions
