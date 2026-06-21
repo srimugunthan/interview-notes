@@ -4,3 +4,6 @@
 [submodule "llms-interview-questions"]
 	path = llms-interview-questions
 	url = https://github.com/Devinterview-io/llms-interview-questions
+[submodule "ai-engineering-interview-questions"]
+	path = ai-engineering-interview-questions
+	url = https://github.com/amitshekhariitbhu/ai-engineering-interview-questions
