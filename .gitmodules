@@ -1,0 +1,3 @@
+[submodule "LLMInterviewQuestions"]
+	path = LLMInterviewQuestions
+	url = https://github.com/llmgenai/LLMInterviewQuestions
