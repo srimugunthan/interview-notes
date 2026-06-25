@@ -10,3 +10,6 @@
 [submodule "DS_StatisticsQuestions"]
 	path = DS_StatisticsQuestions
 	url = https://github.com/srimugunthan/DS_StatisticsQuestions
+[submodule "ml-algos-from-scratch"]
+	path = ml-algos-from-scratch
+	url = https://github.com/srimugunthan/ml-algos-from-scratch
